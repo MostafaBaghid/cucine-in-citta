@@ -15,13 +15,19 @@ export const MIN_SEARCH_LENGTH = 2;
  * so each keystroke that survives the debounce aborts the previous in-flight
  * request via the queryFn's AbortSignal.
  */
-export function useCitySearch(term: string) {
+export function useCitySearch(
+  term: string,
+  { enabled: isActive = true }: { enabled?: boolean } = {}
+) {
   const normalizedTerm = term.trim();
   const debouncedTerm = useDebouncedValue(normalizedTerm, SEARCH_DEBOUNCE_MS);
 
   // Both terms must pass the threshold: `normalizedTerm` stops the query the
   // instant the user clears the input, without waiting out the debounce.
+  // `isActive` lets the combobox suspend fetching while closed (e.g. right
+  // after a selection fills the input) instead of firing a call nobody sees.
   const enabled =
+    isActive &&
     normalizedTerm.length >= MIN_SEARCH_LENGTH &&
     debouncedTerm.length >= MIN_SEARCH_LENGTH;
 

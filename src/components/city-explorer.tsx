@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 
+import { CitySearch } from "@/components/city-search";
 import { ItalyMap } from "@/components/italy-map";
-import { SearchBar } from "@/components/search-bar";
 
 /**
  * Client island: every interactive piece (search input, suggestions, cuisine
@@ -23,7 +23,14 @@ export function CityExplorer() {
       </p>
 
       <div className="mt-10 w-full max-w-md">
-        <SearchBar value={term} onValueChange={setTerm} />
+        <CitySearch
+          term={term}
+          onTermChange={setTerm}
+          onSelect={(place) => {
+            // FASE 5: qui si passa alla vista cucine con place.latitude/longitude.
+            setTerm(place.name);
+          }}
+        />
       </div>
 
       {/* Stato idle: mappa Italia + hint (restano visibili anche durante la ricerca, come nel mockup) */}

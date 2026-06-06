@@ -1,15 +1,16 @@
 "use client";
 
 import { Search } from "lucide-react";
+import type { ComponentProps } from "react";
 
 import { Input } from "@/components/ui/input";
 
 type SearchBarProps = {
   value: string;
   onValueChange: (value: string) => void;
-};
+} & Omit<ComponentProps<"input">, "value" | "onChange" | "type">;
 
-export function SearchBar({ value, onValueChange }: SearchBarProps) {
+export function SearchBar({ value, onValueChange, ...inputProps }: SearchBarProps) {
   return (
     <div className="relative w-full">
       <Search
@@ -25,6 +26,7 @@ export function SearchBar({ value, onValueChange }: SearchBarProps) {
         autoComplete="off"
         spellCheck={false}
         className="h-12 rounded-xl bg-card pl-11 text-base"
+        {...inputProps}
       />
     </div>
   );
