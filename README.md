@@ -5,7 +5,7 @@ I mockup di riferimento sono nella cartella locale `mockup/`.
 
 ## Stack
 
-- [Next.js](https://nextjs.org) 16 (App Router, Turbopack) · React 19 · TypeScript
+- [Next.js](https://nextjs.org) 15 (App Router, Turbopack in dev) · React 19 · TypeScript
 - [Tailwind CSS v4](https://tailwindcss.com) + [shadcn/ui](https://ui.shadcn.com) — tema dark di default con token brand
 - [TanStack Query](https://tanstack.com/query) · [Zod](https://zod.dev)
 - [Vitest](https://vitest.dev)
