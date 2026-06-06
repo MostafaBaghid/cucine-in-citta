@@ -1,0 +1,17 @@
+import { describe, expect, it } from "vitest";
+
+import { cn } from "./utils";
+
+describe("cn", () => {
+  it("merges class names", () => {
+    expect(cn("p-2", "font-bold")).toBe("p-2 font-bold");
+  });
+
+  it("resolves tailwind conflicts keeping the last class", () => {
+    expect(cn("p-2", "p-4")).toBe("p-4");
+  });
+
+  it("ignores falsy values", () => {
+    expect(cn("a", false, undefined, null, "")).toBe("a");
+  });
+});
