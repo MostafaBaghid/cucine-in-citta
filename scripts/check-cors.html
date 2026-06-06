@@ -1,0 +1,47 @@
+<!doctype html>
+<!--
+  Throwaway — FASE 0: verifica CORS da un VERO browser (richiesta CLAUDE.md).
+  I fetch partono dal motore del browser (CORS enforcement reale, a differenza
+  del check Node in check-cors.mjs) e l'esito viene scritto nel DOM.
+
+  Uso (headless Edge, dump del DOM dopo che i fetch sono completati):
+    & "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" `
+      --headless=new --disable-gpu --virtual-time-budget=15000 `
+      --dump-dom "file:///C:/appMusta/cucine-in-citta/scripts/check-cors.html"
+
+  Oppure: aprire il file in un browser e leggere la pagina.
+-->
+<html lang="it">
+  <meta charset="utf-8" />
+  <title>CORS check BestieBite</title>
+  <body>
+    <pre id="out">running...</pre>
+    <script>
+      const ENDPOINTS = [
+        ["autocomplete", "https://api.bestiebite.com/places/v2/autocomplete?term=mila&lang=it&limit=8"],
+        ["cuisines", "https://api.bestiebite.com/places/labels/by-location-and-type?lat=45.46&lng=9.17&type=cuisine"],
+      ];
+
+      (async () => {
+        const lines = [];
+        let allOk = true;
+        for (const [label, url] of ENDPOINTS) {
+          try {
+            // mode:"cors" è il default cross-origin: se manca l'ACAO il browser
+            // blocca e il fetch rigetta con TypeError.
+            const res = await fetch(url);
+            const body = await res.text();
+            const ok = res.ok && body.length > 0;
+            if (!ok) allOk = false;
+            lines.push(`${label}: HTTP ${res.status}, body ${body.length} bytes -> ${ok ? "CORS OK" : "FAIL"}`);
+          } catch (err) {
+            allOk = false;
+            lines.push(`${label}: BLOCCATO DAL BROWSER (${err})`);
+          }
+        }
+        lines.push(`VERDETTO BROWSER: ${allOk ? "CORS OK su entrambi -> fetch diretto dal client" : "CORS BLOCCATO -> serve Route Handler proxy"}`);
+        document.getElementById("out").textContent = lines.join("\n");
+      })();
+    </script>
+  </body>
+</html>
