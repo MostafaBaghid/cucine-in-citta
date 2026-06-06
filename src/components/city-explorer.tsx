@@ -3,7 +3,9 @@
 import { useState } from "react";
 
 import { CitySearch } from "@/components/city-search";
+import { CuisinesView } from "@/components/cuisines-view";
 import { ItalyMap } from "@/components/italy-map";
+import type { Place } from "@/lib/schemas";
 
 /**
  * Client island: every interactive piece (search input, suggestions, cuisine
@@ -12,6 +14,18 @@ import { ItalyMap } from "@/components/italy-map";
  */
 export function CityExplorer() {
   const [term, setTerm] = useState("");
+  const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
+
+  // Single-page view switch: a selected place replaces the search view with
+  // the cuisine grid; "back" returns to the search keeping the typed term.
+  if (selectedPlace) {
+    return (
+      <CuisinesView
+        place={selectedPlace}
+        onBack={() => setSelectedPlace(null)}
+      />
+    );
+  }
 
   return (
     <section className="flex w-full flex-col items-center px-6 pt-14 pb-24 sm:pt-20">
@@ -26,10 +40,7 @@ export function CityExplorer() {
         <CitySearch
           term={term}
           onTermChange={setTerm}
-          onSelect={(place) => {
-            // FASE 5: qui si passa alla vista cucine con place.latitude/longitude.
-            setTerm(place.name);
-          }}
+          onSelect={setSelectedPlace}
         />
       </div>
 
