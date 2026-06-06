@@ -98,7 +98,7 @@ export function CitySearch({ term, onTermChange, onSelect }: CitySearchProps) {
         onKeyDown={handleKeyDown}
         role="combobox"
         aria-expanded={panel !== "closed"}
-        aria-controls="city-listbox"
+        aria-controls={panel === "suggestions" ? "city-listbox" : undefined}
         aria-activedescendant={
           activeIndex >= 0 ? `city-option-${activeIndex}` : undefined
         }

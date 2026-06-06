@@ -4,13 +4,19 @@ import { Search } from "lucide-react";
 import type { ComponentProps } from "react";
 
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 
 type SearchBarProps = {
   value: string;
   onValueChange: (value: string) => void;
 } & Omit<ComponentProps<"input">, "value" | "onChange" | "type">;
 
-export function SearchBar({ value, onValueChange, ...inputProps }: SearchBarProps) {
+export function SearchBar({
+  value,
+  onValueChange,
+  className,
+  ...inputProps
+}: SearchBarProps) {
   return (
     <div className="relative w-full">
       <Search
@@ -25,7 +31,7 @@ export function SearchBar({ value, onValueChange, ...inputProps }: SearchBarProp
         aria-label="Cerca una città"
         autoComplete="off"
         spellCheck={false}
-        className="h-12 rounded-xl bg-card pl-11 text-base"
+        className={cn("h-12 rounded-xl bg-card pl-11 text-base", className)}
         {...inputProps}
       />
     </div>

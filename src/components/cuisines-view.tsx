@@ -36,7 +36,7 @@ export function CuisinesView({ place, onBack }: CuisinesViewProps) {
         Cucine in città
       </button>
 
-      <h1 className="mt-6 text-4xl font-bold tracking-tight sm:text-5xl">
+      <h1 className="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
         {place.structured_formatting.main_text}
       </h1>
       <p className="mt-2 text-base text-muted-foreground sm:text-lg">
@@ -68,7 +68,9 @@ export function CuisinesView({ place, onBack }: CuisinesViewProps) {
       ) : (
         <>
           <p className="mt-5 text-xs font-medium tracking-widest text-primary uppercase">
-            {cuisines.length} cucine disponibili
+            {cuisines.length === 1
+              ? "1 cucina disponibile"
+              : `${cuisines.length} cucine disponibili`}
           </p>
           <ul className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {cuisines.map((cuisine) => (
